@@ -1,0 +1,145 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+\usetheme{Singapore}
+\usecolortheme{lily}
+
+
+\setbeamertemplate{footline}[page number]
+\setbeamertemplate{navigation symbols}{}
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Logiki nieklasyczne]{Logiki nieklasyczne w informatyce}
+
+\author{Szymon Wrobel}
+
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% \begin{frame}
+% \frametitle{Plan prezentacji}
+% \tableofcontents
+% \end{frame}
+
+%----------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------
+
+\section{Wstęp}
+\begin{frame}{Rys historyczny}
+    \begin{block}{Rachunek sekwentów}
+    $$ \Delta \vdash \phi $$
+    \end{block}
+\end{frame}
+
+\section{Logika intuicjonistyczna}
+\begin{frame}{Dowody konstruktywne}
+    \begin{block}{Problem}
+    Czy istnieją dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
+    \end{block}
+    
+    \pause
+    
+    \begin{block}{Dowód}
+    Weźmy $a=\sqrt{2}, b=\sqrt{2}$. Rozważmy wymierność $a^{b}$. Jeśli jest wymierne, to dowód jest zakończony. Jeśli nie, weźmy $a=\sqrt{2}^{\sqrt{2}}, b=\sqrt{2}$.
+    
+    Wtedy
+    
+    $$ a^b = {\left( \sqrt{2}^{\sqrt{2}} \right)}^{\sqrt{2}}
+    = \sqrt{2}^{\sqrt{2} \ast \sqrt{2}} = \sqrt{2}^2 = 2
+    $$
+    
+    $\blacksquare$
+    
+    \end{block}
+\end{frame}
+
+\begin{frame}{Dowody konstruktywne}
+    \begin{block}{Problem}
+    Podaj dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
+    \end{block}
+    
+    \pause
+    
+    \begin{alertblock}{Uwaga}
+    Pomimo tego, że udowodniliśmy istnienie tych liczb, nie możemy skorzystać z poprzedniego dowodu
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Dowody konstruktywne}
+    \begin{block}{Dowód (v 2.0)}
+    Weźmy $ a=\sqrt{2}, b=2\log_2{3} $.
+    
+    Wtedy $ a^b = \sqrt{2}^{(2\log_2{3})} = 2^{\log_2{3}} = 3 $
+    
+    $\blacksquare$
+    \end{block}
+\end{frame}
+
+\begin{frame}{Logika intuicjonistyczna}
+
+    \begin{exampleblock}{}
+    Prawdą jest to, na co jesteśmy w stanie przedstawić dowód.
+    \end{exampleblock}
+    
+    \pause
+    
+    \begin{block}{Interpretacja BHK}
+        \begin{itemize}
+            \item Dowód $ A \land B $ to dowód A i dowód B
+            \item Dowód $ A \lor B $ to dowód A albo dowód B
+            \item Dowód $ A \supset B $ to metoda przekształcająca dowód A, w dowód B
+            \item Nie ma dowodu $\bot$
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\section{Logika liniowa}
+\begin{frame}{Title}
+    
+\end{frame}
+
+\section{Co dalej?}
+\begin{frame}{Title}
+    
+\end{frame}
+
+\section*{Bibliografia}
+\begin{frame}{Title}
+    
+\end{frame}
+
+
+\end{document}
+
