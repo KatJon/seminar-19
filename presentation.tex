@@ -31,13 +31,18 @@
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
+\usepackage[ND]{prftree}
+
+\newcommand{\imp}{\rightarrow}
+\newcommand{\NDASS}[1]{\prfbyaxiom{Ass}{#1}}
+
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
 \title[Logiki nieklasyczne]{Logiki nieklasyczne w informatyce}
 
-\author{Szymon Wrobel}
+\author{Szymon Wróbel}
 
 \date{\today}
 
@@ -47,76 +52,207 @@
 \titlepage
 \end{frame}
 
-% \begin{frame}
-% \frametitle{Plan prezentacji}
-% \tableofcontents
-% \end{frame}
+\begin{frame}
+\frametitle{Plan prezentacji}
+\tableofcontents
+\end{frame}
 
 %----------------------------------------------
 %	PRESENTATION SLIDES
 %----------------------------------------------
 
 \section{Wstęp}
-\begin{frame}{Rys historyczny}
-    \begin{block}{Rachunek sekwentów}
-    $$ \Delta \vdash \phi $$
+\begin{frame}{Wstęp}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      Projektowanie aplikacji
+
+      \begin{itemize}[<+->]
+        \item Problem
+        \item Pomysł
+        \item Specyfikacja
+        \item Implementacja
+        \item Wdrożenie
+      \end{itemize}
+    \end{column}
+
+    \pause
+
+    \begin{column}{0.5\textwidth}
+      Projektowanie logiki
+      \begin{itemize}[<+->]
+        \item Problem
+        \item Intuicja
+        \item Składnia
+        \item Semantyka
+        \item Systemy dowodzenia
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Dedukcja naturalna $NK$}
+  \only<1>{
+    \begin{block}{Postać sekwentów}
+      $$ \Delta \vdash \Gamma $$
     \end{block}
+  }
+
+  \pause
+
+  \begin{block}{Aksjomat}
+    $$ \NDASS{\Delta, P \vdash P} $$
+  \end{block}
+
+  \pause
+
+  \begin{block}{Implikacja}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        $$
+        \NDIMPI {\Delta, A \vdash B}
+          {\Delta \vdash A \imp B}
+        $$
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        $$
+        \NDIMPE {\Delta \vdash A \imp B} {\Delta \vdash A}
+          {\Delta \vdash B}
+        $$
+      \end{column}
+    \end{columns}
+  \end{block}
+
+  \pause
+
+  \begin{block}{Koniunkcja}
+    \begin{columns}
+      \begin{column}{0.33\textwidth}
+        $$
+        \NDANDI {\Delta \vdash A} {\Delta \vdash B} 
+          {\Delta \vdash A \land B}
+        $$
+      \end{column}
+
+      \begin{column}{0.33\textwidth}
+        $$
+        \NDANDEL {\Delta \vdash A \land B}
+          {\Delta \vdash A}
+        $$
+      \end{column}
+
+      \begin{column}{0.33\textwidth}
+        $$
+        \NDANDER {\Delta \vdash A \land B}
+          {\Delta \vdash B}
+        $$
+      \end{column}
+    \end{columns}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Dedukcja naturalna $NK$}
+  \begin{block}{Alternatywa}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        $$
+        \NDORIL
+          {\Delta \vdash A}
+          {\Delta \vdash A \lor B}
+        $$
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        $$
+        \NDORIR
+          {\Delta \vdash B}
+          {\Delta \vdash A \lor B}
+        $$
+      \end{column}
+    \end{columns}
+
+    \begin{columns}
+      \begin{column}{1\textwidth}
+        $$
+        \NDORE {\Delta \vdash A \lor B} {\Delta, A \vdash C} {\Delta, B \vdash C}
+          {\Delta \vdash C}
+        $$
+      \end{column}
+
+    \end{columns}
+  \end{block}
+
+  \pause
+
+  \begin{alertblock}{LEM}
+    \begin{columns}
+      \begin{column}{1\textwidth}
+        $$
+        \NDP[r]{LEM}
+          {}
+          {\Delta \vdash P \lor \neg P}
+        $$
+      \end{column}
+    \end{columns}
+  \end{alertblock}
 \end{frame}
 
 \section{Logika intuicjonistyczna}
 \begin{frame}{Dowody konstruktywne}
-    \begin{block}{Problem}
-    Czy istnieją dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
-    \end{block}
-    
-    \pause
-    
-    \begin{block}{Dowód}
-    Weźmy $a=\sqrt{2}, b=\sqrt{2}$. Rozważmy wymierność $a^{b}$. Jeśli jest wymierne, to dowód jest zakończony. Jeśli nie, weźmy $a=\sqrt{2}^{\sqrt{2}}, b=\sqrt{2}$.
-    
-    Wtedy
-    
-    $$ a^b = {\left( \sqrt{2}^{\sqrt{2}} \right)}^{\sqrt{2}}
-    = \sqrt{2}^{\sqrt{2} \ast \sqrt{2}} = \sqrt{2}^2 = 2
-    $$
-    
-    $\blacksquare$
-    
-    \end{block}
+  \begin{block}{Problem}
+  Czy istnieją dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
+  \end{block}
+  
+  \pause
+  
+  \begin{block}{Dowód}
+  Weźmy $a=\sqrt{2}, b=\sqrt{2}$. Rozważmy wymierność $a^{b}$. Jeśli jest wymierne, to dowód jest zakończony. Jeśli nie, weźmy $a=\sqrt{2}^{\sqrt{2}}, b=\sqrt{2}$.
+  
+  Wtedy
+  
+  $$ a^b = {\left( \sqrt{2}^{\sqrt{2}} \right)}^{\sqrt{2}}
+  = \sqrt{2}^{\sqrt{2} \ast \sqrt{2}} = \sqrt{2}^2 = 2
+  $$
+  
+  $\blacksquare$
+  
+  \end{block}
 \end{frame}
 
 \begin{frame}{Dowody konstruktywne}
-    \begin{block}{Problem}
-    Podaj dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
-    \end{block}
-    
-    \pause
-    
-    \begin{alertblock}{Uwaga}
-    Pomimo tego, że udowodniliśmy istnienie tych liczb, nie możemy skorzystać z poprzedniego dowodu
-    \end{alertblock}
+  \begin{block}{Problem}
+  Podaj dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
+  \end{block}
+  
+  \pause
+  
+  \begin{alertblock}{}
+  Pomimo tego, że udowodniliśmy istnienie tych liczb, nie możemy skorzystać z poprzedniego dowodu
+  \end{alertblock}
 \end{frame}
 
 \begin{frame}{Dowody konstruktywne}
-    \begin{block}{Dowód (v 2.0)}
-    Weźmy $ a=\sqrt{2}, b=2\log_2{3} $.
-    
-    Wtedy $ a^b = \sqrt{2}^{(2\log_2{3})} = 2^{\log_2{3}} = 3 $
-    
-    $\blacksquare$
-    \end{block}
+  \begin{block}{Dowód (v 2.0)}
+  Weźmy $ a=\sqrt{2}, b=2\log_2{3} $.
+  
+  Wtedy $ a^b = \sqrt{2}^{(2\log_2{3})} = 2^{\log_2{3}} = 3 $
+  
+  $\blacksquare$
+  \end{block}
 \end{frame}
 
 \begin{frame}{Logika intuicjonistyczna}
+    \only<1>{
+      \begin{exampleblock}{}
+      Prawdziwe jest to, na co mamy dowód.
+      \end{exampleblock}
+    }
 
-    \begin{exampleblock}{}
-    Prawdą jest to, na co jesteśmy w stanie przedstawić dowód.
-    \end{exampleblock}
-    
     \pause
     
     \begin{block}{Interpretacja BHK}
-        \begin{itemize}
+        \begin{itemize}[<+->]
             \item Dowód $ A \land B $ to dowód A i dowód B
             \item Dowód $ A \lor B $ to dowód A albo dowód B
             \item Dowód $ A \supset B $ to metoda przekształcająca dowód A, w dowód B
@@ -125,19 +261,126 @@
     \end{block}
 \end{frame}
 
+\begin{frame}{Dedukcja naturalna $NI$}
+  \only<1> {
+    \begin{block}{Aksjomat}
+      $$ \NDASS{\Delta, P \vdash P} $$
+    \end{block}
+  }
+
+  \pause
+
+  \begin{block}{Implikacja}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        $$
+        \NDIMPI {\Delta, A \vdash B}
+          {\Delta \vdash A \imp B}
+        $$
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        $$
+        \NDIMPE {\Delta \vdash A \imp B} {\Delta \vdash A}
+          {\Delta \vdash B}
+        $$
+      \end{column}
+    \end{columns}
+  \end{block}
+
+  \pause
+
+  \begin{block}{Koniunkcja}
+    \begin{columns}
+      \begin{column}{0.33\textwidth}
+        $$
+        \NDANDI {\Delta \vdash A} {\Delta \vdash B} 
+          {\Delta \vdash A \land B}
+        $$
+      \end{column}
+
+      \begin{column}{0.33\textwidth}
+        $$
+        \NDANDEL {\Delta \vdash A \land B}
+          {\Delta \vdash A}
+        $$
+      \end{column}
+
+      \begin{column}{0.33\textwidth}
+        $$
+        \NDANDER {\Delta \vdash A \land B}
+          {\Delta \vdash B}
+        $$
+      \end{column}
+    \end{columns}
+  \end{block}
+
+  \pause
+
+  \begin{block}{Alternatywa}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        $$
+        \NDORIL
+          {\Delta \vdash A}
+          {\Delta \vdash A \lor B}
+        $$
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        $$
+        \NDORIR
+          {\Delta \vdash B}
+          {\Delta \vdash A \lor B}
+        $$
+      \end{column}
+    \end{columns}
+
+    \begin{columns}
+      \begin{column}{1\textwidth}
+        $$
+        \NDORE {\Delta \vdash A \lor B} {\Delta, A \vdash C} {\Delta, B \vdash C}
+          {\Delta \vdash C}
+        $$
+      \end{column}
+
+    \end{columns}
+  \end{block}
+
+\end{frame}
+
+\begin{frame}{Przykład: $P \imp \neg \neg P$}
+  $$
+    \NDIMPI {
+      \NDIMPI {
+        \NDIMPE 
+          { \NDASS {P, (P \imp \bot) \vdash (P \imp \bot)} }
+          { \NDASS {P, (P \imp \bot) \vdash P} }
+          { P, (P \imp \bot) \vdash \bot }
+      } 
+      { P \vdash (P \imp \bot) \imp \bot }
+    }
+    { \vdash P \imp (P \imp \bot) \imp \bot }
+  $$
+\end{frame}
+
 \section{Logika liniowa}
 \begin{frame}{Title}
     
 \end{frame}
 
-\section{Co dalej?}
+\section{Inne logiki}
 \begin{frame}{Title}
     
 \end{frame}
 
 \section*{Bibliografia}
-\begin{frame}{Title}
-    
+\begin{frame}{Bibliografia}
+    \begin{itemize}
+      \item S. Thompson, Type Theory and Functional Programming, Addison-Wesley, 1991.
+      \item G. Priest, An Introduction to Non-Classical Logic: From If to Is, 2nd ed. Cambridge: Cambridge University Press, 2008.
+      \item G. Gentzen, Untersuchungen über das logische Schließen I, 1935.
+    \end{itemize}
 \end{frame}
 
 
