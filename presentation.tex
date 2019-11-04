@@ -33,8 +33,20 @@
 \usepackage[utf8]{inputenc}
 \usepackage[ND]{prftree}
 
+% Operators
 \newcommand{\imp}{\rightarrow}
+\newcommand{\mkcit}[1]{\lbrack{#1}\rbrack}
+
+% Natural Deduction proof-trees
 \newcommand{\NDASS}[1]{\prfbyaxiom{Ass}{#1}}
+
+% Linear Logic operators
+\newcommand{\LLNEG}[1]{{#1}^\perp}
+\newcommand{\LLIMP}{\multimap}
+\newcommand{\LLWITH}{\&}
+\newcommand{\LLPAR}{\raisebox{\depth}{\scalebox{-1}[-1]{\&}}}
+\newcommand{\LLPLUS}{\oplus}
+\newcommand{\LLTIMES}{\otimes}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -62,7 +74,17 @@
 %----------------------------------------------
 
 \section{Wstęp}
-\begin{frame}{Wstęp}
+\begin{frame}{Po co nam logika?}
+  \pause \textbf{Filozofowie:} Poszukiwanie prawdy.
+
+  \pause \textbf{Lingwiści:} Formalizacja znaczenia wypowiedzi.
+
+  \pause \textbf{Matematycy:} Systemy dowodzenia \pause (lub z nudów).
+
+  \pause \textbf{Informatycy:} Weryfikacja poprawności programów.
+\end{frame}
+
+\begin{frame}{Powstawanie logiki}
   \begin{columns}
     \begin{column}{0.5\textwidth}
       Projektowanie aplikacji
@@ -85,13 +107,76 @@
         \item Intuicja
         \item Składnia
         \item Semantyka
-        \item Systemy dowodzenia
+        \item Zastosowania
       \end{itemize}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Dedukcja naturalna $NK$}
+\section{Logika intuicjonistyczna}
+\begin{frame}{Dowody konstruktywne}
+  \begin{block}{Problem}
+  Czy istnieją dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
+  \end{block}
+  
+  \pause
+  
+  \begin{block}{Dowód}
+  Weźmy $a=\sqrt{2}, b=\sqrt{2}$. Rozważmy wymierność $a^{b}$. Jeśli jest wymierne, to dowód jest zakończony. Jeśli nie, weźmy $a=\sqrt{2}^{\sqrt{2}}, b=\sqrt{2}$.
+  
+  Wtedy
+  
+  $$ a^b = {\left( \sqrt{2}^{\sqrt{2}} \right)}^{\sqrt{2}}
+  = \sqrt{2}^{\sqrt{2} \ast \sqrt{2}} = \sqrt{2}^2 = 2
+  $$
+  
+  $\blacksquare$
+  
+  \end{block}
+\end{frame}
+
+\begin{frame}{Dowody konstruktywne}
+  \begin{block}{Problem}
+  Podaj dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
+  \end{block}
+  
+  \pause
+  
+  \begin{alertblock}{}
+  Pomimo tego, że udowodniliśmy istnienie tych liczb, nie możemy skorzystać z poprzedniego dowodu
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Dowody konstruktywne}
+  \begin{block}{Dowód (v 2.0)}
+  Weźmy $ a=\sqrt{2}, b=2\log_2{3} $.
+  
+  Wtedy $ a^b = \sqrt{2}^{(2\log_2{3})} = 2^{\log_2{3}} = 3 $
+  
+  $\blacksquare$
+  \end{block}
+\end{frame}
+
+\begin{frame}{Logika intuicjonistyczna}
+    \only<1>{
+      \begin{exampleblock}{}
+      Prawdziwe jest to, na co mamy dowód.
+      \end{exampleblock}
+    }
+
+    \pause
+    
+    \begin{block}{Interpretacja BHK}
+        \begin{itemize}[<+->]
+            \item Dowód $ A \land B $ to dowód A i dowód B
+            \item Dowód $ A \lor B $ to dowód A albo dowód B
+            \item Dowód $ A \imp B $ to metoda przekształcająca dowód A, w dowód B
+            \item Nie ma dowodu $\bot$
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Dedukcja naturalna}
   \only<1>{
     \begin{block}{Postać sekwentów}
       $$ \Delta \vdash \Gamma $$
@@ -152,7 +237,7 @@
   \end{block}
 \end{frame}
 
-\begin{frame}{Dedukcja naturalna $NK$}
+\begin{frame}{Dedukcja naturalna}
   \begin{block}{Alternatywa}
     \begin{columns}
       \begin{column}{0.5\textwidth}
@@ -185,172 +270,80 @@
 
   \pause
 
-  \begin{alertblock}{LEM}
+  \begin{alertblock}{$NI \Rightarrow NK$}
     \begin{columns}
-      \begin{column}{1\textwidth}
+      \begin{column}{0.3\textwidth}
         $$
         \NDP[r]{LEM}
           {}
           {\Delta \vdash P \lor \neg P}
         $$
       \end{column}
+
+      \begin{column}{0.3\textwidth}
+        $$
+        \NDP[r]{DNE}
+          {\Delta \vdash \neg \neg P}
+          {\Delta \vdash P}
+        $$
+      \end{column}
+
+      \begin{column}{0.3\textwidth}
+        $$
+        \NDP[r]{PBC}
+          {\Delta, \neg P \vdash \bot }
+          {\Delta \vdash P}
+        $$
+      \end{column}
     \end{columns}
   \end{alertblock}
-\end{frame}
-
-\section{Logika intuicjonistyczna}
-\begin{frame}{Dowody konstruktywne}
-  \begin{block}{Problem}
-  Czy istnieją dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
-  \end{block}
-  
-  \pause
-  
-  \begin{block}{Dowód}
-  Weźmy $a=\sqrt{2}, b=\sqrt{2}$. Rozważmy wymierność $a^{b}$. Jeśli jest wymierne, to dowód jest zakończony. Jeśli nie, weźmy $a=\sqrt{2}^{\sqrt{2}}, b=\sqrt{2}$.
-  
-  Wtedy
-  
-  $$ a^b = {\left( \sqrt{2}^{\sqrt{2}} \right)}^{\sqrt{2}}
-  = \sqrt{2}^{\sqrt{2} \ast \sqrt{2}} = \sqrt{2}^2 = 2
-  $$
-  
-  $\blacksquare$
-  
-  \end{block}
-\end{frame}
-
-\begin{frame}{Dowody konstruktywne}
-  \begin{block}{Problem}
-  Podaj dwie liczby niewymierne $a, b$, takie, że $a^b$ jest liczbą wymierną?
-  \end{block}
-  
-  \pause
-  
-  \begin{alertblock}{}
-  Pomimo tego, że udowodniliśmy istnienie tych liczb, nie możemy skorzystać z poprzedniego dowodu
-  \end{alertblock}
-\end{frame}
-
-\begin{frame}{Dowody konstruktywne}
-  \begin{block}{Dowód (v 2.0)}
-  Weźmy $ a=\sqrt{2}, b=2\log_2{3} $.
-  
-  Wtedy $ a^b = \sqrt{2}^{(2\log_2{3})} = 2^{\log_2{3}} = 3 $
-  
-  $\blacksquare$
-  \end{block}
-\end{frame}
-
-\begin{frame}{Logika intuicjonistyczna}
-    \only<1>{
-      \begin{exampleblock}{}
-      Prawdziwe jest to, na co mamy dowód.
-      \end{exampleblock}
-    }
-
-    \pause
-    
-    \begin{block}{Interpretacja BHK}
-        \begin{itemize}[<+->]
-            \item Dowód $ A \land B $ to dowód A i dowód B
-            \item Dowód $ A \lor B $ to dowód A albo dowód B
-            \item Dowód $ A \supset B $ to metoda przekształcająca dowód A, w dowód B
-            \item Nie ma dowodu $\bot$
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-\begin{frame}{Dedukcja naturalna $NI$}
-  \only<1> {
-    \begin{block}{Aksjomat}
-      $$ \NDASS{\Delta, P \vdash P} $$
-    \end{block}
-  }
-
-  \pause
-
-  \begin{block}{Implikacja}
-    \begin{columns}
-      \begin{column}{0.5\textwidth}
-        $$
-        \NDIMPI {\Delta, A \vdash B}
-          {\Delta \vdash A \imp B}
-        $$
-      \end{column}
-
-      \begin{column}{0.5\textwidth}
-        $$
-        \NDIMPE {\Delta \vdash A \imp B} {\Delta \vdash A}
-          {\Delta \vdash B}
-        $$
-      \end{column}
-    \end{columns}
-  \end{block}
-
-  \pause
-
-  \begin{block}{Koniunkcja}
-    \begin{columns}
-      \begin{column}{0.33\textwidth}
-        $$
-        \NDANDI {\Delta \vdash A} {\Delta \vdash B} 
-          {\Delta \vdash A \land B}
-        $$
-      \end{column}
-
-      \begin{column}{0.33\textwidth}
-        $$
-        \NDANDEL {\Delta \vdash A \land B}
-          {\Delta \vdash A}
-        $$
-      \end{column}
-
-      \begin{column}{0.33\textwidth}
-        $$
-        \NDANDER {\Delta \vdash A \land B}
-          {\Delta \vdash B}
-        $$
-      \end{column}
-    \end{columns}
-  \end{block}
-
-  \pause
-
-  \begin{block}{Alternatywa}
-    \begin{columns}
-      \begin{column}{0.5\textwidth}
-        $$
-        \NDORIL
-          {\Delta \vdash A}
-          {\Delta \vdash A \lor B}
-        $$
-      \end{column}
-
-      \begin{column}{0.5\textwidth}
-        $$
-        \NDORIR
-          {\Delta \vdash B}
-          {\Delta \vdash A \lor B}
-        $$
-      \end{column}
-    \end{columns}
-
-    \begin{columns}
-      \begin{column}{1\textwidth}
-        $$
-        \NDORE {\Delta \vdash A \lor B} {\Delta, A \vdash C} {\Delta, B \vdash C}
-          {\Delta \vdash C}
-        $$
-      \end{column}
-
-    \end{columns}
-  \end{block}
-
 \end{frame}
 
 \begin{frame}{Przykład: $P \imp \neg \neg P$}
-  $$
+  \only<1>{
+    $$
+    { \vdash P \imp (P \imp \bot) \imp \bot }
+    $$
+  }
+
+  \only<2>{
+    $$
+    \NDIMPI {
+      { P \vdash (P \imp \bot) \imp \bot }
+    }
+    { \vdash P \imp (P \imp \bot) \imp \bot }
+    $$
+  }
+
+  \only<3>{
+    $$
+    \NDIMPI {
+      \NDIMPI {
+          { P, (P \imp \bot) \vdash \bot }
+      } 
+      { P \vdash (P \imp \bot) \imp \bot }
+    }
+    { \vdash P \imp (P \imp \bot) \imp \bot }
+    $$
+  }
+
+  \only<4>{
+    $$
+    \NDIMPI {
+      \NDIMPI {
+        \NDIMPE 
+          { {P, (P \imp \bot) \vdash (P \imp \bot)} }
+          { {P, (P \imp \bot) \vdash P} }
+          { P, (P \imp \bot) \vdash \bot }
+      } 
+      { P \vdash (P \imp \bot) \imp \bot }
+    }
+    { \vdash P \imp (P \imp \bot) \imp \bot }
+    $$
+  }
+
+  \only<5>{
+    $$
     \NDIMPI {
       \NDIMPI {
         \NDIMPE 
@@ -361,25 +354,76 @@
       { P \vdash (P \imp \bot) \imp \bot }
     }
     { \vdash P \imp (P \imp \bot) \imp \bot }
-  $$
+    $$
+  }
 \end{frame}
 
-\section{Logika liniowa}
-\begin{frame}{Title}
-    
+\section{Inne logiki nieklasyczne}
+\begin{frame}{Logika liniowa}
+  \begin{block}{Przykład}
+  \pause Niech $P$ oznacza "mieć ciastko".
+
+  \pause Niech $Q$ oznacza "zjeść ciastko".
+
+  \pause Jeśli mamy ciastko, to możemy je zjeść, co zapiszemy jako $P \imp Q$
+
+  \pause Wtedy w logice intuicjonistycznej możemy udowodnić $P \imp (P \imp Q) \imp P \land Q $.
+  \end{block}
+
+  \begin{alertblock}{Wniosek}
+    Dzięki logice intuicjonistycznej możemy zjeść ciastko i mieć ciastko
+  \end{alertblock}
 \end{frame}
 
-\section{Inne logiki}
-\begin{frame}{Title}
-    
+\begin{frame}{Logika liniowa: składnia}
+  \begin{block}{Zmienne zdaniowe}
+    $$ p, \LLNEG{p} $$
+  \end{block}
+
+  \begin{block}{Stałe}
+    $$ 1, \bot, \top, 0 $$
+  \end{block}
+
+  \begin{block}{Koniunkcja}
+    $$ A \LLTIMES B, A \LLWITH B $$
+  \end{block}
+
+  \begin{block}{Alternatywa}
+    $$ A \LLPAR B, A \LLPLUS B $$
+  \end{block}
+\end{frame}
+
+\begin{frame}{Logika liniowa: zastosowania}
+  \begin{itemize}[<+->]
+    \item Typy Liniowe jako kontrakt \mkcit{Wad91}
+    \item Logika liniowa jako logika współbieżności/równoległości \mkcit{Wad14}
+    \item Powiązania z układami kwantowymi \mkcit{Lag12}, \mkcit{Bae09}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Relevance Logic}
+
+\end{frame}
+
+\begin{frame}{Paraconsistent Logic}
+
+\end{frame}
+
+\begin{frame}{Computability Logic (CoL)}
+
 \end{frame}
 
 \section*{Bibliografia}
 \begin{frame}{Bibliografia}
     \begin{itemize}
-      \item S. Thompson, Type Theory and Functional Programming, Addison-Wesley, 1991.
-      \item G. Priest, An Introduction to Non-Classical Logic: From If to Is, 2nd ed. Cambridge: Cambridge University Press, 2008.
-      \item G. Gentzen, Untersuchungen über das logische Schließen I, 1935.
+      \item \mkcit{Tho91} S. Thompson, \textit{Type Theory and Functional Programming}, Addison-Wesley, 1991.
+      \item \mkcit{Pri08} G. Priest, \textit{An Introduction to Non-Classical Logic: From If to Is}, Cambridge University Press, 2008.
+      \item \mkcit{Gen35} G. Gentzen, \textit{Untersuchungen über das logische Schließen}, 1935.
+      \item \mkcit{Wad91} P. Wadler, \textit{Is there a use for linear logic?}, 1991.
+      \item \mkcit{Wad14} P. Wadler, \textit{Propositions as sessions}, Journal of Functional Programming, vol. 24,  2014.
+      \item \mkcit{Lag12} U. Dal Lago, C. Faggian,  \textit{On Multiplicative Linear Logic, Modality and Quantum Circuits}, Electronic Proceedings in Theoretical Computer Science, 2012
+      \item \mkcit{Bae09} J. Baez, M. Stay, \textit{Physics, Topology, Logic and Computation: A Rosetta Stone}, 2009.
     \end{itemize}
 \end{frame}
 

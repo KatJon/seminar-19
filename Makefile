@@ -5,4 +5,4 @@ presentation:
 	pdflatex presentation.tex
 
 clean:
-	rm -rf *.toc *.aux **/*.aux *.nav *.pdf *.log *.out *.snm
+	rm -rf *.toc *.aux **/*.aux *.nav *.log *.out *.snm
