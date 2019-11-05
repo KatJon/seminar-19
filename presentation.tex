@@ -81,7 +81,7 @@
 
   \pause \textbf{Matematycy:} Systemy dowodzenia \pause (lub z nudów).
 
-  \pause \textbf{Informatycy:} Weryfikacja poprawności programów.
+  \pause \textbf{Informatycy:} Weryfikacja poprawności programów analiza pracy systemów, systemy AI.
 \end{frame}
 
 \begin{frame}{Powstawanie logiki}
@@ -358,6 +358,75 @@
   }
 \end{frame}
 
+\begin{frame}{Izomorfizm Curry'ego-Howarda}
+  \begin{block}{Rachunek lambda z typami prostymi}
+    $$ \prfaxiom{\Gamma, x:\alpha \vdash x:\alpha} $$
+
+    \pause
+
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        $$ \prftree[r]{ABS}
+          {\Gamma, x:\alpha \vdash M:\beta}
+          {\Gamma \vdash (\lambda x.M): \alpha \imp \beta}
+        $$
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        $$ \prftree[r]{APP}
+          {\Gamma \vdash M:\alpha \imp \beta}
+          {\Gamma \vdash N:\alpha}
+          {\Gamma \vdash (M N): \beta}
+        $$
+      \end{column}
+    \end{columns}
+
+    \pause
+
+    $$ \prftree[r]{PAIR}
+      {\Gamma \vdash A:\alpha}
+      {\Gamma \vdash B:\beta}
+      {\Gamma \vdash \langle A, B \rangle: \alpha * \beta}
+    $$
+
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+        $$ \prftree[r]{FST}
+          {\Gamma \vdash \langle A, B \rangle: \alpha * \beta}
+          {\Gamma \vdash A:\alpha}
+        $$
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        $$ \prftree[r]{SND}
+          {\Gamma \vdash \langle A, B \rangle: \alpha * \beta}
+          {\Gamma \vdash B:\beta}
+        $$
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+
+      \end{column}
+    \end{columns}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Izomorfizm Curry'ego-Howarda}
+  $$ A \land B \Rightarrow \alpha * \beta $$
+  
+  \begin{center}
+    \texttt{data Pair a b = Pair a b}
+  \end{center}
+
+  $$ A \lor B \Rightarrow \alpha + \beta $$ 
+
+  \begin{center}
+    \texttt{data Either a b = Left a | Right b}
+  \end{center}
+
+
+\end{frame}
+
 \section{Inne logiki nieklasyczne}
 \begin{frame}{Logika liniowa}
   \begin{block}{Przykład}
@@ -403,11 +472,36 @@
 \end{frame}
 
 \begin{frame}{Relevance Logic}
+  \begin{block}{Implikacja} 
+    Jeśli 2 = 3, to księżyc jest z sera.
+  \end{block}
 
+  \pause
+
+  Potrzebujemy logiki, w której poprzednik implikacji jest istotny (ang. relevant) dla następnika.
+
+  \pause
+
+  \begin{block}{Zastosowania}
+    \begin{itemize}
+      \item Analiza systemów współbieżnych \mkcit{Dam88}
+      \item Reprezentacja wiedzy w systemach sztucznej inteligencji \mkcit{Sha92}
+    \end{itemize}
+  \end{block}
 \end{frame}
 
-\begin{frame}{Paraconsistent Logic}
+\begin{frame}{Logika parakonsystentna}
+  Jedą z istotnych właściwości logiki istotnościowej\only<2>{(???)}, wynikającą z potrzeby istotności przesłanki implikacji, jest odrzucenie zasady eksplozji (z fałszu wynika wszystko).
 
+  \pause
+  \pause
+
+  \begin{block}{Zastosowania}
+    \begin{itemize}
+      \item Powiązania z modelami obliczeń kwantowych \mkcit{Agu06}
+      \item Parakonsystencja jako dualność intuicjonizmu \mkcit{Aoy04}
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \begin{frame}{Computability Logic (CoL)}
@@ -416,17 +510,25 @@
 
 \section*{Bibliografia}
 \begin{frame}{Bibliografia}
-    \begin{itemize}
-      \item \mkcit{Tho91} S. Thompson, \textit{Type Theory and Functional Programming}, Addison-Wesley, 1991.
-      \item \mkcit{Pri08} G. Priest, \textit{An Introduction to Non-Classical Logic: From If to Is}, Cambridge University Press, 2008.
-      \item \mkcit{Gen35} G. Gentzen, \textit{Untersuchungen über das logische Schließen}, 1935.
-      \item \mkcit{Wad91} P. Wadler, \textit{Is there a use for linear logic?}, 1991.
-      \item \mkcit{Wad14} P. Wadler, \textit{Propositions as sessions}, Journal of Functional Programming, vol. 24,  2014.
-      \item \mkcit{Lag12} U. Dal Lago, C. Faggian,  \textit{On Multiplicative Linear Logic, Modality and Quantum Circuits}, Electronic Proceedings in Theoretical Computer Science, 2012
-      \item \mkcit{Bae09} J. Baez, M. Stay, \textit{Physics, Topology, Logic and Computation: A Rosetta Stone}, 2009.
-    \end{itemize}
+  \begin{itemize}
+    \item \mkcit{Tho91} S. Thompson, \textit{Type Theory and Functional Programming}, Addison-Wesley, 1991.
+    \item \mkcit{Pri08} G. Priest, \textit{An Introduction to Non-Classical Logic: From If to Is}, Cambridge University Press, 2008.
+    \item \mkcit{Gen35} G. Gentzen, \textit{Untersuchungen über das logische Schließen}, 1935.
+    \item \mkcit{Wad91} P. Wadler, \textit{Is there a use for linear logic?}, 1991.
+    \item \mkcit{Wad14} P. Wadler, \textit{Propositions as sessions}, Journal of Functional Programming, vol. 24,  2014.
+    \item \mkcit{Lag12} U. Dal Lago, C. Faggian, \textit{On Multiplicative Linear Logic, Modality and Quantum Circuits}, Electronic Proceedings in Theoretical Computer Science, 2012
+  \end{itemize}
 \end{frame}
 
+\begin{frame}{Bibliografia}
+  \begin{itemize}
+    \item \mkcit{Bae09} J. Baez, M. Stay, \textit{Physics, Topology, Logic and Computation: A Rosetta Stone}, 2009.
+    \item \mkcit{Dam88} M. Dam, \textit{Relevance logic and concurrent composition}, 1988.
+    \item \mkcit{Sha92} S. Shapiro, \textit{Relevance Logic in Computer Science}, 1992.
+    \item \mkcit{Agu06} J. Agudelo-Agudelo, W. Carnielli, \textit{Quantum Computation via Paraconsistent Computation}, 2006. 
+    \item \mkcit{Aoy04} H. Aoyama, \textit{LK, LJ, Dual Intuitionistic Logic, and Quantum Logic}, 2004.
+  \end{itemize}
+\end{frame}
 
 \end{document}
 
